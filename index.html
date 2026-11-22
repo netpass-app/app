@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NETPASS – VPN par abonnement, payé en Mobile Money</title>
+<meta name="description" content="Téléchargez NETPASS pour Android : un VPN par abonnement payable avec Orange Money et Moov Money. Protégez votre connexion sur les Wi-Fi publics.">
+<meta name="theme-color" content="#0B1F44">
+<meta property="og:title" content="NETPASS – VPN par abonnement">
+<meta property="og:description" content="Protégez votre connexion et payez avec votre Mobile Money.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Couleurs */
+    --navy:#0B1F44; --navy-2:#102a5c;
+    --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#60A5FA;
+    --accent:#22C55E; --accent-d:#16A34A;
+    --bg:#F5F8FD; --surface:#FFFFFF; --surface-2:#EEF3FB;
+    --ink:#0F172A; --muted:#4B5B78; --line:#E2E8F3;
+    --tint:#E8F0FF;
+    /* Rayons, ombres */
+    --r-sm:12px; --r-md:16px; --r-lg:24px;
+    --shadow-sm:0 1px 2px rgba(11,31,68,.06),0 4px 14px rgba(11,31,68,.05);
+    --shadow-md:0 12px 40px rgba(11,31,68,.10);
+    /* Espacement (base 8px) */
+    --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s6:48px; --s8:64px; --s12:96px;
+    --font-h:"Plus Jakarta Sans","Inter",system-ui,sans-serif;
+    --font-b:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#071329; --surface:#0E1D3B; --surface-2:#0B1832;
+      --ink:#EAF0FB; --muted:#9FB0CE; --line:#1C2D52; --tint:#13295A;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.25);
+      --shadow-md:0 12px 40px rgba(0,0,0,.45);
+      color-scheme:dark;
+    }
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:88px}
+  body{font-family:var(--font-b);font-size:clamp(16px,1.1vw + 12px,18px);line-height:1.6;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-x:hidden}
+  img,svg{display:block;max-width:100%}
+  a{color:var(--blue-d)}
+  @media (prefers-color-scheme:dark){a{color:var(--blue-l)}}
+  :focus-visible{outline:3px solid var(--blue-l);outline-offset:3px;border-radius:8px}
+  .container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--s3)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  h1,h2,h3{font-family:var(--font-h);color:var(--ink)}
+
+  /* ---------- Navbar ---------- */
+  .nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .25s,box-shadow .25s,border-color .25s;border-bottom:1px solid transparent}
+  .nav.scrolled{background:rgba(11,31,68,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:rgba(255,255,255,.08)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:inline-flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-family:var(--font-h);font-weight:800;letter-spacing:.14em;font-size:16px}
+  .logo svg{width:28px;height:28px}
+  .links{display:flex;align-items:center;gap:var(--s4)}
+  .links a{color:rgba(255,255,255,.85);text-decoration:none;font-weight:500;font-size:15px;padding:8px 0;transition:color .2s}
+  .links a:hover{color:#fff}
+  .links .pill{background:#fff;color:var(--navy);padding:0 20px;min-height:44px;display:inline-flex;align-items:center;border-radius:999px;font-weight:600}
+  .links .pill:hover{color:var(--navy);transform:translateY(-1px)}
+  .burger{display:none;width:44px;height:44px;border:0;background:transparent;color:#fff;border-radius:12px;cursor:pointer;align-items:center;justify-content:center}
+  .burger svg{width:26px;height:26px}
+  .burger .x{display:none}
+  .burger[aria-expanded="true"] .x{display:block}
+  .burger[aria-expanded="true"] .m{display:none}
+  @media (max-width:760px){
+    .burger{display:inline-flex}
+    .links{position:absolute;top:72px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(11,31,68,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:var(--s1) var(--s3) var(--s3);max-height:0;overflow:hidden;opacity:0;visibility:hidden;transition:max-height .3s ease,opacity .25s ease,visibility .3s}
+    .nav.open .links{max-height:360px;opacity:1;visibility:visible}
+    .nav.open{background:rgba(11,31,68,.96)}
+    .links a{padding:14px 0;min-height:48px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .links .pill{justify-content:center;margin-top:var(--s2);border:0}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;color:#fff;text-align:center;padding:calc(72px + var(--s8)) 0 var(--s12);
+    background:
+      radial-gradient(900px 420px at 85% -10%,rgba(96,165,250,.40),transparent 62%),
+      radial-gradient(700px 360px at 0% 105%,rgba(37,99,235,.50),transparent 62%),
+      linear-gradient(165deg,var(--navy) 0%,#10347a 100%)}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);font-size:14px;font-weight:500;color:rgba(255,255,255,.92)}
+  .badge i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(34,197,94,.25)}
+  .hero h1{color:#fff;font-weight:800;letter-spacing:-.025em;line-height:1.1;font-size:clamp(32px,6.4vw,60px);max-width:17em;margin:var(--s3) auto var(--s2)}
+  .hero h1 em{font-style:normal;background:linear-gradient(90deg,#93C5FD,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{max-width:36em;margin:0 auto var(--s4);font-size:clamp(17px,2.2vw,20px);line-height:1.6;color:rgba(255,255,255,.88)}
+  .cta{display:flex;flex-wrap:wrap;gap:var(--s2);justify-content:center}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 var(--s4);border-radius:14px;font-family:var(--font-h);font-weight:700;font-size:17px;text-decoration:none;cursor:pointer;border:0;transition:transform .2s,box-shadow .2s,background .2s,border-color .2s}
+  .btn svg{width:22px;height:22px;flex:none}
+  .btn-primary{background:var(--accent);color:#04210F;box-shadow:0 10px 30px rgba(34,197,94,.35)}
+  .btn-primary:hover{background:#34D673;transform:translateY(-2px);box-shadow:0 14px 36px rgba(34,197,94,.45)}
+  .btn-primary:active{transform:translateY(0) scale(.98)}
+  .btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.28)}
+  .btn-ghost:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+  .btn-ghost:active{transform:scale(.98)}
+  .meta{margin-top:var(--s2);font-size:14px;color:rgba(255,255,255,.72)}
+  .trust{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);justify-content:center;margin-top:var(--s6);font-size:14px;color:rgba(255,255,255,.85)}
+  .trust span{display:inline-flex;align-items:center;gap:8px}
+  .trust svg{width:18px;height:18px;color:#86EFAC}
+
+  /* ---------- Sections ---------- */
+  main{position:relative}
+  section.block{padding:var(--s8) 0}
+  @media (min-width:900px){section.block{padding:var(--s12) 0}}
+  .eyebrow{display:block;font-family:var(--font-h);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-d);margin-bottom:var(--s1)}
+  @media (prefers-color-scheme:dark){.eyebrow{color:var(--blue-l)}}
+  h2{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.15;max-width:18em}
+  .sub{color:var(--muted);max-width:38em;margin-top:var(--s2);line-height:1.6}
+  .head{margin-bottom:var(--s6)}
+  .head.center{text-align:center}
+  .head.center h2,.head.center .sub{margin-left:auto;margin-right:auto}
+
+  .notice{display:flex;gap:var(--s2);align-items:flex-start;background:#FFF7E6;border:1px solid #F6D58A;color:#6B4A00;border-radius:var(--r-md);padding:var(--s2) var(--s3);margin:calc(var(--s4) * -1) auto var(--s4);max-width:760px;position:relative;box-shadow:var(--shadow-sm);font-size:16px}
+  .notice[hidden]{display:none}
+  .notice svg{width:24px;height:24px;flex:none;margin-top:2px}
+  @media (prefers-color-scheme:dark){.notice{background:#3A2B05;border-color:#6B4A00;color:#FDE7A8}}
+
+  /* Cartes avantages */
+  .grid{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s4);box-shadow:var(--shadow-sm);transition:transform .25s,box-shadow .25s,border-color .25s}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:color-mix(in srgb,var(--blue) 35%,var(--line))}
+  .ico{width:48px;height:48px;border-radius:14px;background:var(--tint);color:var(--blue-d);display:grid;place-items:center;margin-bottom:var(--s2)}
+  @media (prefers-color-scheme:dark){.ico{color:var(--blue-l)}}
+  .ico svg{width:24px;height:24px}
+  .card h3{font-size:20px;font-weight:700;line-height:1.25;margin-bottom:var(--s1)}
+  .card p{color:var(--muted);font-size:16px;line-height:1.6}
+
+  /* Comparaison */
+  .compare{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+  .row{display:grid;grid-template-columns:1.1fr 1fr 1fr}
+  .row>div{padding:var(--s2) var(--s3);border-bottom:1px solid var(--line);font-size:16px}
+  .row:last-child>div{border-bottom:0}
+  .row.h>div{background:var(--surface-2);font-family:var(--font-h);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .row.h>div.n{color:var(--blue-d)}
+  @media (prefers-color-scheme:dark){.row.h>div.n{color:var(--blue-l)}}
+  .row>div:first-child{font-weight:600}
+  .row .no{color:#B4474F}
+  .row .yes{color:var(--accent-d);font-weight:600}
+  @media (prefers-color-scheme:dark){.row .no{color:#F59CA3}.row .yes{color:#6EE7A0}}
+  @media (max-width:640px){
+    .row{grid-template-columns:1fr 1fr}
+    .row>div:first-child{grid-column:1/-1;background:var(--surface-2);border-bottom:0;padding-bottom:4px;font-size:14px;color:var(--muted)}
+    .row.h>div:first-child{display:none}
+  }
+  .fine{margin-top:var(--s3);color:var(--muted);font-size:15px;max-width:44em}
+
+  /* Étapes */
+  .steps{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));list-style:none;counter-reset:s}
+  .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s4) var(--s3);box-shadow:var(--shadow-sm)}
+  .steps li::before{content:counter(s);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;font-family:var(--font-h);font-weight:800;margin-bottom:var(--s2)}
+  .steps h3{font-size:18px;font-weight:700;margin-bottom:var(--s1)}
+  .steps p{color:var(--muted);font-size:16px}
+
+  /* Formules */
+  .plans{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));align-items:stretch}
+  .plan{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s4);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+  .plan:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+  .plan.pop{border:2px solid var(--blue);box-shadow:var(--shadow-md)}
+  .tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-family:var(--font-h);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:999px;white-space:nowrap}
+  .plan h3{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .price{font-family:var(--font-h);font-weight:800;font-size:clamp(36px,5vw,44px);letter-spacing:-.02em;line-height:1.1;margin:var(--s2) 0 4px}
+  .price small{font-size:16px;font-weight:600;color:var(--muted);letter-spacing:0}
+  .per{color:var(--muted);font-size:14px;margin-bottom:var(--s3)}
+  .plan ul{list-style:none;display:grid;gap:12px;margin-top:auto}
+  .plan li{display:flex;gap:10px;align-items:flex-start;font-size:16px}
+  .plan li svg{width:20px;height:20px;color:var(--accent-d);flex:none;margin-top:3px}
+  @media (prefers-color-scheme:dark){.plan li svg{color:#6EE7A0}}
+
+  /* FAQ */
+  .faq{max-width:760px;margin:0 auto}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);margin-bottom:12px;box-shadow:var(--shadow-sm);transition:border-color .2s}
+  details[open]{border-color:color-mix(in srgb,var(--blue) 40%,var(--line))}
+  summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:var(--s2);min-height:56px;padding:var(--s2) var(--s3);font-family:var(--font-h);font-weight:700;font-size:17px;line-height:1.3}
+  summary::-webkit-details-marker{display:none}
+  summary svg{width:22px;height:22px;flex:none;color:var(--blue-d);transition:transform .25s}
+  @media (prefers-color-scheme:dark){summary svg{color:var(--blue-l)}}
+  details[open] summary svg{transform:rotate(45deg)}
+  details p{padding:0 var(--s3) var(--s3);color:var(--muted);font-size:16px;line-height:1.65}
+
+  /* CTA final */
+  .final{background:linear-gradient(165deg,var(--navy),#10347a);color:#fff;border-radius:var(--r-lg);padding:var(--s8) var(--s3);text-align:center;position:relative;overflow:hidden}
+  .final::before{content:"";position:absolute;inset:-40% -10% auto auto;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(96,165,250,.35),transparent 65%)}
+  .final h2{color:#fff;margin:0 auto var(--s2);position:relative}
+  .final p{color:rgba(255,255,255,.85);max-width:32em;margin:0 auto var(--s4);position:relative}
+  .final .cta{position:relative}
+
+  /* Footer */
+  footer{background:var(--navy);color:rgba(255,255,255,.78);padding:var(--s8) 0 var(--s4);margin-top:var(--s12)}
+  .f-grid{display:grid;gap:var(--s4);grid-template-columns:1.4fr 1fr 1fr}
+  @media (max-width:760px){.f-grid{grid-template-columns:1fr}}
+  footer .logo{margin-bottom:var(--s2)}
+  footer h4{font-family:var(--font-h);color:#fff;font-size:14px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:var(--s2)}
+  footer a{color:rgba(255,255,255,.78);text-decoration:none;display:inline-block;padding:6px 0;min-height:32px}
+  footer a:hover{color:#fff}
+  footer ul{list-style:none}
+  .copy{margin-top:var(--s6);padding-top:var(--s3);border-top:1px solid rgba(255,255,255,.12);font-size:14px;color:rgba(255,255,255,.6)}
+  main > .block:last-of-type{padding-bottom:0}
+
+  /* Apparition au scroll (uniquement si JS actif) */
+  .js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .js .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{animation:none!important;transition-duration:.01ms!important}
+    .js .rv{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- Icônes (style Lucide) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 9.2-8 11-4.6-1.8-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-devices" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="10" rx="1.5"/><path d="M8 20h2M18 9h3v10h-3z"/></symbol>
+    <symbol id="i-support" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0116 0v3a2 2 0 01-2 2h-1v-5h3M4 12v3a2 2 0 002 2h1v-5H4"/><path d="M17 19a4 4 0 01-4 2h-1"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="nav" id="nav" aria-label="Navigation principale">
+  <div class="container nav-in">
+    <a class="logo" href="#top" aria-label="NETPASS, accueil"><svg aria-hidden="true"><use href="#i-shield"/></svg>NETPASS</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="links" aria-label="Ouvrir le menu">
+      <svg class="m" aria-hidden="true"><use href="#i-menu"/></svg>
+      <svg class="x" aria-hidden="true"><use href="#i-x"/></svg>
+    </button>
+    <div class="links" id="links">
+      <a href="#avantages">Avantages</a>
+      <a href="#installer">Installer</a>
+      <a href="#formules">Formules</a>
+      <a href="#faq">Questions</a>
+      <a class="pill" href="#telecharger">Télécharger</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="container">
+    <span class="badge"><i aria-hidden="true"></i>Disponible sur Android</span>
+    <h1>Protégez votre connexion. <em>Payez avec votre Mobile Money.</em></h1>
+    <p class="lead">NETPASS est un abonnement VPN simple, pensé pour le Burkina Faso. Activation automatique après paiement, sans carte bancaire.</p>
+    <div class="cta" id="telecharger">
+      <a class="btn btn-primary" id="dl" href="https://github.com/netpass-app/app/releases/latest/download/netpass.apk" download>
+        <svg aria-hidden="true"><use href="#i-download"/></svg>Télécharger pour Android
+      </a>
+      <a class="btn btn-ghost" href="#installer">Comment installer</a>
+    </div>
+    <p class="meta">Fichier APK · Android uniquement · Gratuit à installer</p>
+    <div class="trust">
+      <span><svg aria-hidden="true"><use href="#i-check"/></svg>Orange Money &amp; Moov Money</span>
+      <span><svg aria-hidden="true"><use href="#i-check"/></svg>Trafic chiffré</span>
+      <span><svg aria-hidden="true"><use href="#i-check"/></svg>Dès 1 000 F</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="block" id="avantages" style="padding-top:var(--s8)">
+    <div class="container">
+
+      <div class="notice rv" id="iosNotice" hidden role="note">
+        <svg aria-hidden="true"><use href="#i-info"/></svg>
+        <div><b>iPhone :</b> la version iPhone n’est pas encore disponible. NETPASS fonctionne pour l’instant sur les téléphones Android.</div>
+      </div>
+
+      <div class="head center rv">
+        <span class="eyebrow">Pourquoi NETPASS</span>
+        <h2>Pourquoi utiliser NETPASS ?</h2>
+        <p class="sub">Une protection pensée pour la vie de tous les jours : cyber, café, université, hôtel.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-lock"/></svg></div><h3>Protégé sur les Wi-Fi publics</h3><p>Sur un Wi-Fi partagé, ce que vous envoyez peut être observé. Avec NETPASS, votre trafic est chiffré entre votre téléphone et notre serveur.</p></article>
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-globe"/></svg></div><h3>Votre adresse IP n’est plus montrée</h3><p>Les sites et applications voient l’adresse de notre serveur, pas celle de votre connexion.</p></article>
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-phone"/></svg></div><h3>Payez avec votre Mobile Money</h3><p>Orange Money ou Moov Money, en FCFA. Pas besoin de carte bancaire, contrairement à la plupart des VPN étrangers.</p></article>
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-cal"/></svg></div><h3>Des abonnements courts et abordables</h3><p>À partir de 1 000 F pour 7 jours. Vous prenez seulement la durée dont vous avez besoin : 7, 14, 30 ou 90 jours.</p></article>
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-devices"/></svg></div><h3>Jusqu’à 5 appareils</h3><p>Selon votre formule : 1, 2 ou 5 appareils protégés avec un seul abonnement.</p></article>
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-support"/></svg></div><h3>Un support qui vous répond</h3><p>Une question ou un problème de paiement ? Écrivez-nous en français, par e-mail.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="container">
+      <div class="head center rv">
+        <span class="eyebrow">Comparaison</span>
+        <h2>Connexion seule ou avec NETPASS</h2>
+      </div>
+      <div class="compare rv" role="table" aria-label="Comparaison connexion seule et NETPASS">
+        <div class="row h" role="row"><div role="columnheader"><span class="sr">Critère</span></div><div role="columnheader">Connexion seule</div><div class="n" role="columnheader">Avec NETPASS</div></div>
+        <div class="row" role="row"><div role="rowheader">Wi-Fi public</div><div class="no" role="cell">Trafic exposé aux autres</div><div class="yes" role="cell">Trafic chiffré</div></div>
+        <div class="row" role="row"><div role="rowheader">Votre adresse IP</div><div class="no" role="cell">Visible par les sites</div><div class="yes" role="cell">Remplacée par celle du serveur</div></div>
+        <div class="row" role="row"><div role="rowheader">Paiement</div><div class="no" role="cell">Souvent par carte bancaire</div><div class="yes" role="cell">Orange Money, Moov Money</div></div>
+      </div>
+      <p class="fine rv"><b>À savoir :</b> NETPASS ne remplace pas votre connexion internet. Il s’utilise avec vos données mobiles ou votre Wi-Fi, et il en protège le trafic.</p>
+    </div>
+  </section>
+
+  <section class="block" id="installer" style="padding-top:0">
+    <div class="container">
+      <div class="head center rv">
+        <span class="eyebrow">Installation</span>
+        <h2>Installer en 4 étapes</h2>
+        <p class="sub">Une minute suffit. Aucune compétence technique nécessaire.</p>
+      </div>
+      <ol class="steps">
+        <li class="rv"><h3>Téléchargez le fichier</h3><p>Appuyez sur « Télécharger pour Android » en haut de la page.</p></li>
+        <li class="rv"><h3>Ouvrez le fichier</h3><p>Depuis la notification de téléchargement, ou depuis le dossier « Téléchargements » de votre téléphone.</p></li>
+        <li class="rv"><h3>Autorisez l’installation</h3><p>Si Android le demande, appuyez sur « Paramètres », activez « Autoriser depuis cette source », puis revenez en arrière.</p></li>
+        <li class="rv"><h3>Appuyez sur « Installer »</h3><p>Si un message de protection apparaît, choisissez « Installer quand même ». Ouvrez NETPASS et créez votre compte.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="container">
+      <div class="head center rv">
+        <span class="eyebrow">Fonctionnement</span>
+        <h2>Comment ça marche</h2>
+      </div>
+      <div class="grid">
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-check"/></svg></div><h3>1. Créez votre compte</h3><p>Directement dans l’application, en quelques secondes.</p></article>
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-phone"/></svg></div><h3>2. Payez en Mobile Money</h3><p>Choisissez une formule et payez avec Orange Money ou Moov Money. Vous validez avec votre code secret sur la page de votre opérateur : NETPASS ne le voit jamais.</p></article>
+        <article class="card rv"><div class="ico"><svg aria-hidden="true"><use href="#i-zap"/></svg></div><h3>3. Connectez-vous</h3><p>Votre abonnement s’active automatiquement, puis vous vous connectez d’un seul bouton.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="formules" style="padding-top:0">
+    <div class="container">
+      <div class="head center rv">
+        <span class="eyebrow">Tarifs</span>
+        <h2>Les formules</h2>
+        <p class="sub">Prix pour 7 jours. Des durées de 14, 30 et 90 jours sont disponibles dans l’application.</p>
+      </div>
+      <div class="plans">
+        <article class="plan rv"><h3>Basic</h3><div class="price">1 000 <small>F</small></div><p class="per">à partir de, pour 7 jours</p>
+          <ul><li><svg aria-hidden="true"><use href="#i-check"/></svg>1 appareil</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Trafic chiffré</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Activation automatique</li></ul></article>
+        <article class="plan pop rv"><span class="tag">Le plus choisi</span><h3>Standard</h3><div class="price">1 600 <small>F</small></div><p class="per">à partir de, pour 7 jours</p>
+          <ul><li><svg aria-hidden="true"><use href="#i-check"/></svg>2 appareils</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Trafic chiffré</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Activation automatique</li></ul></article>
+        <article class="plan rv"><h3>Premium</h3><div class="price">2 400 <small>F</small></div><p class="per">à partir de, pour 7 jours</p>
+          <ul><li><svg aria-hidden="true"><use href="#i-check"/></svg>5 appareils</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Trafic chiffré</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Activation automatique</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" style="padding-top:0">
+    <div class="container">
+      <div class="head center rv">
+        <span class="eyebrow">Questions</span>
+        <h2>Bon à savoir</h2>
+      </div>
+      <div class="faq rv">
+        <details>
+          <summary>Faut-il une connexion internet pour utiliser NETPASS ?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <p>Oui. Comme tous les VPN, NETPASS fait passer votre trafic par un serveur : il faut donc un peu de connexion (données mobiles, même un petit forfait, ou Wi-Fi) pour vous connecter.</p>
+        </details>
+        <details>
+          <summary>Pourquoi Android me prévient avant d’installer ?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <p>Cette application ne passe pas par le Play Store : Android affiche donc un avertissement standard pour tout fichier installé directement. Vous pouvez continuer avec « Installer quand même ».</p>
+        </details>
+        <details>
+          <summary>Y a-t-il une limite de données ?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <p>Il n’y a pas de quota mensuel fixe, mais nous demandons un usage normal. Un usage très au-dessus de la moyenne qui ralentit les autres clients peut être limité.</p>
+        </details>
+        <details>
+          <summary>J’ai payé mais mon abonnement n’est pas activé<svg aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <p>L’activation est normalement automatique en quelques instants. Si rien ne change après 10 minutes, écrivez-nous en indiquant votre numéro de paiement.</p>
+        </details>
+        <details>
+          <summary>Comment mettre à jour l’application ?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <p>Téléchargez la dernière version depuis cette page et installez-la par-dessus l’ancienne : vos données et votre compte sont conservés.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="container">
+      <div class="final rv">
+        <h2>Prêt à protéger votre connexion ?</h2>
+        <p>Téléchargez NETPASS, créez votre compte et connectez-vous en quelques minutes.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://github.com/netpass-app/app/releases/latest/download/netpass.apk" download>
+            <svg aria-hidden="true"><use href="#i-download"/></svg>Télécharger pour Android
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="f-grid">
+      <div>
+        <a class="logo" href="#top"><svg aria-hidden="true"><use href="#i-shield"/></svg>NETPASS</a>
+        <p>Votre connexion, protégée. Un VPN par abonnement, payable en Mobile Money.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#avantages">Avantages</a></li>
+          <li><a href="#installer">Installer</a></li>
+          <li><a href="#formules">Formules</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:netpass.contact@gmail.com">netpass.contact@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="copy">© 2026 NETPASS. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+
+    // Message simple pour les visiteurs sur iPhone / iPad.
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      document.getElementById('iosNotice').hidden = false;
+    }
+
+    // Barre de navigation : fond au défilement.
+    var nav = document.getElementById('nav');
+    function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 24); }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Menu mobile.
+    var burger = document.getElementById('burger');
+    function setMenu(open) {
+      nav.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    }
+    burger.addEventListener('click', function () {
+      setMenu(burger.getAttribute('aria-expanded') !== 'true');
+    });
+    document.querySelectorAll('#links a').forEach(function (a) {
+      a.addEventListener('click', function () { setMenu(false); });
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+
+    // Apparition progressive au défilement.
+    var items = document.querySelectorAll('.rv');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+  })();
+</script>
+</body>
+</html>
